@@ -1,0 +1,38 @@
+{
+    "er-nix": {
+        "branch": "master",
+        "description": "Common Nix code for Earnest Research",
+        "homepage": null,
+        "owner": "EarnestResearch",
+        "repo": "er-nix",
+        "rev": "838def9d1ff423d385523b9b0f3ac5bdf860208d",
+        "sha256": "1zvzpywvh378mcdsxvg9igyyqy1rhaj2ikzx3l64jxwxbiad2w1m",
+        "type": "tarball",
+        "url": "https://github.com/EarnestResearch/er-nix/archive/838def9d1ff423d385523b9b0f3ac5bdf860208d.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "98c74a80934123cb4c3bf3314567f67311eb711a",
+        "sha256": "1w8n54hapd4x9f1am33icvngkqns7m3hl9yair38yqq08ffwg0kn",
+        "type": "tarball",
+        "url": "https://github.com/nmattia/niv/archive/98c74a80934123cb4c3bf3314567f67311eb711a.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "opsgenie-oas": {
+        "branch": "master",
+        "description": null,
+        "homepage": null,
+        "owner": "opsgenie",
+        "repo": "opsgenie-oas",
+        "rev": "d70bd5ec508a1f4e31ff6ec96acbc35c3a2ca18f",
+        "sha256": "1dr0376y37n6xx7hamwid1zy5clqryszav52z2pw3mkays0rh3p8",
+        "type": "tarball",
+        "url": "https://github.com/opsgenie/opsgenie-oas/archive/d70bd5ec508a1f4e31ff6ec96acbc35c3a2ca18f.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}
