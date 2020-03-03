@@ -1,0 +1,11 @@
+resolver: lts-14.27
+build:
+  haddock-arguments:
+    haddock-args:
+    - "--odir=./docs"
+extra-deps: []
+packages:
+- '.'
+nix:
+  enable: true
+  packages: [zlib]
