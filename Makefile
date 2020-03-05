@@ -3,18 +3,21 @@ GEN:=$(ROOT_DIR)/gen
 GEN_OPSGENIE_REST:=$(GEN)/opsgenie-rest
 GEN_SWAGGER:=$(GEN)/swagger
 
-test: patch
+test: patch-haskell
 	cd $(GEN_OPSGENIE_REST) && stack test
 
-patch: generate-haskell
+patch-haskell: generate-haskell
 	patch -p1 -i patches/0001-upgrade-to-lts-14.27.patch
 
-generate-haskell: generate-swagger
+generate-haskell: patch-swagger
 	rm -rf $(GEN_OPSGENIE_REST)
 	mkdir -p $(GEN_OPSGENIE_REST)
 	swagger-codegen generate -l haskell-http-client -i $(GEN_SWAGGER)/swagger.json -o $(GEN_OPSGENIE_REST)
 	rm $(GEN_OPSGENIE_REST)/.gitignore
 	rm $(GEN_OPSGENIE_REST)/.travis.yml
+
+patch-swagger: generate-swagger
+	patch -p1 -i patches/Add-global-consumes.patch
 
 generate-swagger:
 	rm -rf $(GEN_SWAGGER)

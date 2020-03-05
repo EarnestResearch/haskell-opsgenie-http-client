@@ -7,6 +7,8 @@ info:
 host: "api.opsgenie.com"
 schemes:
 - "https"
+consumes:
+- "application/json"
 produces:
 - "application/json"
 security:

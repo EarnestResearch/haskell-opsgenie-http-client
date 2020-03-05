@@ -1,0 +1,26 @@
+From f45ef2121ac14c027cb8432e8f144bfea432717e Mon Sep 17 00:00:00 2001
+From: "Ross A. Baker" <ross@rossabaker.com>
+Date: Thu, 5 Mar 2020 15:05:04 -0500
+Subject: [PATCH] Add global consumes
+
+---
+ gen/swagger/swagger.json | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gen/swagger/swagger.json b/gen/swagger/swagger.json
+index f49ab69..35c0668 100644
+--- a/gen/swagger/swagger.json
++++ b/gen/swagger/swagger.json
+@@ -9,6 +9,9 @@
+   "schemes": [
+     "https"
+   ],
++  "consumes": [
++    "application/json"
++  ],
+   "produces": [
+     "application/json"
+   ],
+-- 
+2.25.1
+
