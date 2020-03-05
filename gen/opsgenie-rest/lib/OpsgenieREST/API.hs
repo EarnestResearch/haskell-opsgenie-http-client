@@ -98,6 +98,10 @@ instance HasBodyParam AcknowledgeAlert AcknowledgeAlertPayload
 instance HasOptionalParam AcknowledgeAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AcknowledgeAlert MimeJSON
+
 -- | @application/json@
 instance Produces AcknowledgeAlert MimeJSON
 
@@ -179,6 +183,10 @@ instance HasBodyParam AddDetails AddDetailsToAlertPayload
 instance HasOptionalParam AddDetails IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AddDetails MimeJSON
+
 -- | @application/json@
 instance Produces AddDetails MimeJSON
 
@@ -214,6 +222,10 @@ instance HasBodyParam AddNote AddNoteToAlertPayload
 instance HasOptionalParam AddNote IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AddNote MimeJSON
+
 -- | @application/json@
 instance Produces AddNote MimeJSON
 
@@ -249,6 +261,10 @@ instance HasBodyParam AddResponder AddResponderToAlertPayload
 instance HasOptionalParam AddResponder IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AddResponder MimeJSON
+
 -- | @application/json@
 instance Produces AddResponder MimeJSON
 
@@ -284,6 +300,10 @@ instance HasBodyParam AddTags AddTagsToAlertPayload
 instance HasOptionalParam AddTags IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AddTags MimeJSON
+
 -- | @application/json@
 instance Produces AddTags MimeJSON
 
@@ -319,6 +339,10 @@ instance HasBodyParam AddTeam AddTeamToAlertPayload
 instance HasOptionalParam AddTeam IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AddTeam MimeJSON
+
 -- | @application/json@
 instance Produces AddTeam MimeJSON
 
@@ -354,6 +378,10 @@ instance HasBodyParam AssignAlert AssignAlertPayload
 instance HasOptionalParam AssignAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes AssignAlert MimeJSON
+
 -- | @application/json@
 instance Produces AssignAlert MimeJSON
 
@@ -387,6 +415,10 @@ instance HasBodyParam CloseAlert CloseAlertPayload
 instance HasOptionalParam CloseAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes CloseAlert MimeJSON
+
 -- | @application/json@
 instance Produces CloseAlert MimeJSON
 
@@ -424,6 +456,10 @@ instance HasOptionalParam CountAlerts SearchIdentifier where
 instance HasOptionalParam CountAlerts SearchIdentifierType where
   applyOptionalParam req (SearchIdentifierType xs) =
     req `setQuery` toQuery ("searchIdentifierType", Just xs)
+
+-- | @application/json@
+instance Consumes CountAlerts MimeJSON
+
 -- | @application/json@
 instance Produces CountAlerts MimeJSON
 
@@ -453,6 +489,10 @@ data CreateAlert
 
 -- | /Body Param/ "body" - Request payload of created alert
 instance HasBodyParam CreateAlert CreateAlertPayload 
+
+-- | @application/json@
+instance Consumes CreateAlert MimeJSON
+
 -- | @application/json@
 instance Produces CreateAlert MimeJSON
 
@@ -482,6 +522,10 @@ data CreateSavedSearches
 
 -- | /Body Param/ "body" - Request payload of creating saved search
 instance HasBodyParam CreateSavedSearches CreateSavedSearchPayload 
+
+-- | @application/json@
+instance Consumes CreateSavedSearches MimeJSON
+
 -- | @application/json@
 instance Produces CreateSavedSearches MimeJSON
 
@@ -520,6 +564,10 @@ instance HasOptionalParam DeleteAlert User where
 instance HasOptionalParam DeleteAlert Source where
   applyOptionalParam req (Source xs) =
     req `setQuery` toQuery ("source", Just xs)
+
+-- | @application/json@
+instance Consumes DeleteAlert MimeJSON
+
 -- | @application/json@
 instance Produces DeleteAlert MimeJSON
 
@@ -548,6 +596,10 @@ data DeleteSavedSearch
 instance HasOptionalParam DeleteSavedSearch IdentifierType2 where
   applyOptionalParam req (IdentifierType2 xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes DeleteSavedSearch MimeJSON
+
 -- | @application/json@
 instance Produces DeleteSavedSearch MimeJSON
 
@@ -583,6 +635,10 @@ instance HasBodyParam EscalateAlert EscalateAlertToNextPayload
 instance HasOptionalParam EscalateAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes EscalateAlert MimeJSON
+
 -- | @application/json@
 instance Produces EscalateAlert MimeJSON
 
@@ -617,6 +673,10 @@ instance HasBodyParam ExecuteCustomAlertAction ExecuteCustomAlertActionPayload
 instance HasOptionalParam ExecuteCustomAlertAction IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes ExecuteCustomAlertAction MimeJSON
+
 -- | @application/json@
 instance Produces ExecuteCustomAlertAction MimeJSON
 
@@ -645,6 +705,10 @@ data GetAlert
 instance HasOptionalParam GetAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes GetAlert MimeJSON
+
 -- | @application/json@
 instance Produces GetAlert MimeJSON
 
@@ -674,6 +738,10 @@ data GetAttachment
 instance HasOptionalParam GetAttachment AlertIdentifierType where
   applyOptionalParam req (AlertIdentifierType xs) =
     req `setQuery` toQuery ("alertIdentifierType", Just xs)
+
+-- | @application/json@
+instance Consumes GetAttachment MimeJSON
+
 -- | @application/json@
 instance Produces GetAttachment MimeJSON
 
@@ -697,6 +765,10 @@ getRequestStatus  _ (RequestId requestId) =
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyGenieKey)
 
 data GetRequestStatus  
+
+-- | @application/json@
+instance Consumes GetRequestStatus MimeJSON
+
 -- | @application/json@
 instance Produces GetRequestStatus MimeJSON
 
@@ -725,6 +797,10 @@ data GetSavedSearch
 instance HasOptionalParam GetSavedSearch IdentifierType2 where
   applyOptionalParam req (IdentifierType2 xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes GetSavedSearch MimeJSON
+
 -- | @application/json@
 instance Produces GetSavedSearch MimeJSON
 
@@ -782,6 +858,10 @@ instance HasOptionalParam ListAlerts Sort where
 instance HasOptionalParam ListAlerts Order where
   applyOptionalParam req (Order xs) =
     req `setQuery` toQuery ("order", Just xs)
+
+-- | @application/json@
+instance Consumes ListAlerts MimeJSON
+
 -- | @application/json@
 instance Produces ListAlerts MimeJSON
 
@@ -810,6 +890,10 @@ data ListAttachments
 instance HasOptionalParam ListAttachments AlertIdentifierType where
   applyOptionalParam req (AlertIdentifierType xs) =
     req `setQuery` toQuery ("alertIdentifierType", Just xs)
+
+-- | @application/json@
+instance Consumes ListAttachments MimeJSON
+
 -- | @application/json@
 instance Produces ListAttachments MimeJSON
 
@@ -858,6 +942,10 @@ instance HasOptionalParam ListLogs Limit where
 instance HasOptionalParam ListLogs Order where
   applyOptionalParam req (Order xs) =
     req `setQuery` toQuery ("order", Just xs)
+
+-- | @application/json@
+instance Consumes ListLogs MimeJSON
+
 -- | @application/json@
 instance Produces ListLogs MimeJSON
 
@@ -906,6 +994,10 @@ instance HasOptionalParam ListNotes Limit where
 instance HasOptionalParam ListNotes Order where
   applyOptionalParam req (Order xs) =
     req `setQuery` toQuery ("order", Just xs)
+
+-- | @application/json@
+instance Consumes ListNotes MimeJSON
+
 -- | @application/json@
 instance Produces ListNotes MimeJSON
 
@@ -934,6 +1026,10 @@ data ListRecipients
 instance HasOptionalParam ListRecipients IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes ListRecipients MimeJSON
+
 -- | @application/json@
 instance Produces ListRecipients MimeJSON
 
@@ -956,6 +1052,10 @@ listSavedSearches  _ =
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyGenieKey)
 
 data ListSavedSearches  
+
+-- | @application/json@
+instance Consumes ListSavedSearches MimeJSON
+
 -- | @application/json@
 instance Produces ListSavedSearches MimeJSON
 
@@ -990,6 +1090,10 @@ instance HasOptionalParam RemoveAttachment AlertIdentifierType where
 instance HasOptionalParam RemoveAttachment User where
   applyOptionalParam req (User xs) =
     req `setQuery` toQuery ("user", Just xs)
+
+-- | @application/json@
+instance Consumes RemoveAttachment MimeJSON
+
 -- | @application/json@
 instance Produces RemoveAttachment MimeJSON
 
@@ -1035,6 +1139,10 @@ instance HasOptionalParam RemoveDetails Note where
 instance HasOptionalParam RemoveDetails Source where
   applyOptionalParam req (Source xs) =
     req `setQuery` toQuery ("source", Just xs)
+
+-- | @application/json@
+instance Consumes RemoveDetails MimeJSON
+
 -- | @application/json@
 instance Produces RemoveDetails MimeJSON
 
@@ -1080,6 +1188,10 @@ instance HasOptionalParam RemoveTags Note where
 instance HasOptionalParam RemoveTags Source where
   applyOptionalParam req (Source xs) =
     req `setQuery` toQuery ("source", Just xs)
+
+-- | @application/json@
+instance Consumes RemoveTags MimeJSON
+
 -- | @application/json@
 instance Produces RemoveTags MimeJSON
 
@@ -1115,6 +1227,10 @@ instance HasBodyParam SnoozeAlert SnoozeAlertPayload
 instance HasOptionalParam SnoozeAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes SnoozeAlert MimeJSON
+
 -- | @application/json@
 instance Produces SnoozeAlert MimeJSON
 
@@ -1148,6 +1264,10 @@ instance HasBodyParam UnAcknowledgeAlert UnAcknowledgeAlertPayload
 instance HasOptionalParam UnAcknowledgeAlert IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes UnAcknowledgeAlert MimeJSON
+
 -- | @application/json@
 instance Produces UnAcknowledgeAlert MimeJSON
 
@@ -1183,6 +1303,10 @@ instance HasBodyParam UpdateAlertDescription UpdateAlertDescriptionPayload
 instance HasOptionalParam UpdateAlertDescription IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes UpdateAlertDescription MimeJSON
+
 -- | @application/json@
 instance Produces UpdateAlertDescription MimeJSON
 
@@ -1218,6 +1342,10 @@ instance HasBodyParam UpdateAlertMessage UpdateAlertMessagePayload
 instance HasOptionalParam UpdateAlertMessage IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes UpdateAlertMessage MimeJSON
+
 -- | @application/json@
 instance Produces UpdateAlertMessage MimeJSON
 
@@ -1253,6 +1381,10 @@ instance HasBodyParam UpdateAlertPriority UpdateAlertPriorityPayload
 instance HasOptionalParam UpdateAlertPriority IdentifierType where
   applyOptionalParam req (IdentifierType xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes UpdateAlertPriority MimeJSON
+
 -- | @application/json@
 instance Produces UpdateAlertPriority MimeJSON
 
@@ -1288,6 +1420,10 @@ instance HasBodyParam UpdateSavedSearch UpdateSavedSearchPayload
 instance HasOptionalParam UpdateSavedSearch IdentifierType2 where
   applyOptionalParam req (IdentifierType2 xs) =
     req `setQuery` toQuery ("identifierType", Just xs)
+
+-- | @application/json@
+instance Consumes UpdateSavedSearch MimeJSON
+
 -- | @application/json@
 instance Produces UpdateSavedSearch MimeJSON
 
