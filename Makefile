@@ -8,6 +8,7 @@ test: patch-haskell
 
 patch-haskell: generate-haskell
 	patch -p1 -i patches/0001-upgrade-to-lts-14.27.patch
+	patch -p1 -i patches/0002-geniekey-scheme.patch
 
 generate-haskell: patch-swagger
 	rm -rf $(GEN_OPSGENIE_REST)
