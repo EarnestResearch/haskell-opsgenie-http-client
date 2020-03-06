@@ -5152,7 +5152,6 @@ definitions:
         x-dataType: "Integer"
       timeUnit:
         type: "string"
-        default: "minutes"
         enum:
         - "days"
         - "hours"
@@ -5161,6 +5160,7 @@ definitions:
         - "miliseconds"
         - "micros"
         - "nanos"
+        default: "minutes"
         x-dataType: "E'TimeUnit"
     x-opsgenie-domain: "common"
   Filter:

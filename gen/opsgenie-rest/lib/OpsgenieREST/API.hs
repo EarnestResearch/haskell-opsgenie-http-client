@@ -1466,7 +1466,7 @@ instance AuthMethod AuthApiKeyGenieKey where
   applyAuthMethod _ a@(AuthApiKeyGenieKey secret) req =
     P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", secret)
+      then req `setHeader` toHeader ("Authorization", "GenieKey " <> secret)
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
 
