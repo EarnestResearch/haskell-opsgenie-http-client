@@ -29,6 +29,7 @@ module OpsgenieREST.Core where
 
 import OpsgenieREST.MimeTypes
 import OpsgenieREST.Logging
+import OpsgenieREST.Orphans ()
 
 import qualified Control.Arrow as P (left)
 import qualified Control.DeepSeq as NF
@@ -420,7 +421,7 @@ _memptyToNothing x = x
 -- * DateTime Formatting
 
 newtype DateTime = DateTime { unDateTime :: TI.UTCTime }
-  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.ParseTime,TI.FormatTime)
+  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.FormatTime)
 instance A.FromJSON DateTime where
   parseJSON = A.withText "DateTime" (_readDateTime . T.unpack)
 instance A.ToJSON DateTime where
@@ -435,9 +436,9 @@ instance MimeRender MimeMultipartFormData DateTime where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | @_parseISO8601@
-_readDateTime :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
+_readDateTime :: (Monad m, P.MonadFail m, Alternative m) => String -> m DateTime
 _readDateTime =
-  _parseISO8601
+  fmap DateTime . _parseISO8601
 {-# INLINE _readDateTime #-}
 
 -- | @TI.formatISO8601Millis@
@@ -447,7 +448,7 @@ _showDateTime =
 {-# INLINE _showDateTime #-}
 
 -- | parse an ISO8601 date-time string
-_parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
+_parseISO8601 :: (TI.ParseTime t, Monad m, P.MonadFail m, Alternative m) => String -> m t
 _parseISO8601 t =
   P.asum $
   P.flip (TI.parseTimeM True TI.defaultTimeLocale) t <$>
@@ -457,7 +458,7 @@ _parseISO8601 t =
 -- * Date Formatting
 
 newtype Date = Date { unDate :: TI.Day }
-  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.ParseTime,TI.FormatTime)
+  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.FormatTime)
 instance A.FromJSON Date where
   parseJSON = A.withText "Date" (_readDate . T.unpack)
 instance A.ToJSON Date where
@@ -472,9 +473,9 @@ instance MimeRender MimeMultipartFormData Date where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | @TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"@
-_readDate :: (TI.ParseTime t, Monad m) => String -> m t
+_readDate :: (Monad m, P.MonadFail m) => String -> m Date
 _readDate =
-  TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
+  fmap Date . TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
 {-# INLINE _readDate #-}
 
 -- | @TI.formatTime TI.defaultTimeLocale "%Y-%m-%d"@
@@ -504,7 +505,7 @@ instance MimeRender MimeMultipartFormData ByteArray where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
 -- | read base64 encoded characters
-_readByteArray :: Monad m => Text -> m ByteArray
+_readByteArray :: (Monad m, P.MonadFail m) => Text -> m ByteArray
 _readByteArray = P.either P.fail (pure . ByteArray) . BL64.decode . BL.fromStrict . T.encodeUtf8
 {-# INLINE _readByteArray #-}
 
@@ -530,7 +531,7 @@ instance P.Show Binary where
 instance MimeRender MimeMultipartFormData Binary where
   mimeRender _ = unBinary
 
-_readBinaryBase64 :: Monad m => Text -> m Binary
+_readBinaryBase64 :: (Monad m, P.MonadFail m) => Text -> m Binary --
 _readBinaryBase64 = P.either P.fail (pure . Binary) . BL64.decode . BL.fromStrict . T.encodeUtf8
 {-# INLINE _readBinaryBase64 #-}
 
