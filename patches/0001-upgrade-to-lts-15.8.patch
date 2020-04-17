@@ -1,0 +1,198 @@
+diff --git a/gen/opsgenie-rest/lib/OpsgenieREST/Core.hs b/gen/opsgenie-rest/lib/OpsgenieREST/Core.hs
+index ea61f98..543a222 100644
+--- a/gen/opsgenie-rest/lib/OpsgenieREST/Core.hs
++++ b/gen/opsgenie-rest/lib/OpsgenieREST/Core.hs
+@@ -29,6 +29,7 @@ module OpsgenieREST.Core where
+ 
+ import OpsgenieREST.MimeTypes
+ import OpsgenieREST.Logging
++import OpsgenieREST.Orphans ()
+ 
+ import qualified Control.Arrow as P (left)
+ import qualified Control.DeepSeq as NF
+@@ -420,7 +421,7 @@ _memptyToNothing x = x
+ -- * DateTime Formatting
+ 
+ newtype DateTime = DateTime { unDateTime :: TI.UTCTime }
+-  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.ParseTime,TI.FormatTime)
++  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.FormatTime)
+ instance A.FromJSON DateTime where
+   parseJSON = A.withText "DateTime" (_readDateTime . T.unpack)
+ instance A.ToJSON DateTime where
+@@ -435,9 +436,9 @@ instance MimeRender MimeMultipartFormData DateTime where
+   mimeRender _ = mimeRenderDefaultMultipartFormData
+ 
+ -- | @_parseISO8601@
+-_readDateTime :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
++_readDateTime :: (Monad m, P.MonadFail m, Alternative m) => String -> m DateTime
+ _readDateTime =
+-  _parseISO8601
++  fmap DateTime . _parseISO8601
+ {-# INLINE _readDateTime #-}
+ 
+ -- | @TI.formatISO8601Millis@
+@@ -447,7 +448,7 @@ _showDateTime =
+ {-# INLINE _showDateTime #-}
+ 
+ -- | parse an ISO8601 date-time string
+-_parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
++_parseISO8601 :: (TI.ParseTime t, Monad m, P.MonadFail m, Alternative m) => String -> m t
+ _parseISO8601 t =
+   P.asum $
+   P.flip (TI.parseTimeM True TI.defaultTimeLocale) t <$>
+@@ -457,7 +458,7 @@ _parseISO8601 t =
+ -- * Date Formatting
+ 
+ newtype Date = Date { unDate :: TI.Day }
+-  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.ParseTime,TI.FormatTime)
++  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.FormatTime)
+ instance A.FromJSON Date where
+   parseJSON = A.withText "Date" (_readDate . T.unpack)
+ instance A.ToJSON Date where
+@@ -472,9 +473,9 @@ instance MimeRender MimeMultipartFormData Date where
+   mimeRender _ = mimeRenderDefaultMultipartFormData
+ 
+ -- | @TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"@
+-_readDate :: (TI.ParseTime t, Monad m) => String -> m t
++_readDate :: (Monad m, P.MonadFail m) => String -> m Date
+ _readDate =
+-  TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
++  fmap Date . TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
+ {-# INLINE _readDate #-}
+ 
+ -- | @TI.formatTime TI.defaultTimeLocale "%Y-%m-%d"@
+@@ -504,7 +505,7 @@ instance MimeRender MimeMultipartFormData ByteArray where
+   mimeRender _ = mimeRenderDefaultMultipartFormData
+ 
+ -- | read base64 encoded characters
+-_readByteArray :: Monad m => Text -> m ByteArray
++_readByteArray :: (Monad m, P.MonadFail m) => Text -> m ByteArray
+ _readByteArray = P.either P.fail (pure . ByteArray) . BL64.decode . BL.fromStrict . T.encodeUtf8
+ {-# INLINE _readByteArray #-}
+ 
+@@ -530,7 +531,7 @@ instance P.Show Binary where
+ instance MimeRender MimeMultipartFormData Binary where
+   mimeRender _ = unBinary
+ 
+-_readBinaryBase64 :: Monad m => Text -> m Binary
++_readBinaryBase64 :: (Monad m, P.MonadFail m) => Text -> m Binary --
+ _readBinaryBase64 = P.either P.fail (pure . Binary) . BL64.decode . BL.fromStrict . T.encodeUtf8
+ {-# INLINE _readBinaryBase64 #-}
+ 
+diff --git a/gen/lib/OpsgenieREST/Logging.hs b/gen/lib/OpsgenieREST/Logging.hs
+index 706652c..bdae9e9 100644
+--- a/gen/opsgenie-rest/lib/OpsgenieREST/Logging.hs
++++ b/gen/opsgenie-rest/lib/OpsgenieREST/Logging.hs
+@@ -65,7 +65,7 @@ stdoutLoggingExec = runDefaultLogExecWithContext
+ -- | A Katip Log environment which targets stdout
+ stdoutLoggingContext :: LogContext -> IO LogContext
+ stdoutLoggingContext cxt = do
+-    handleScribe <- LG.mkHandleScribe LG.ColorIfTerminal IO.stdout LG.InfoS LG.V2
++    handleScribe <- LG.mkHandleScribe LG.ColorIfTerminal IO.stdout (LG.permitItem LG.InfoS) LG.V2
+     LG.registerScribe "stdout" handleScribe LG.defaultScribeSettings cxt
+ 
+ -- * stderr logger
+@@ -77,7 +77,7 @@ stderrLoggingExec = runDefaultLogExecWithContext
+ -- | A Katip Log environment which targets stderr
+ stderrLoggingContext :: LogContext -> IO LogContext
+ stderrLoggingContext cxt = do
+-    handleScribe <- LG.mkHandleScribe LG.ColorIfTerminal IO.stderr LG.InfoS LG.V2
++    handleScribe <- LG.mkHandleScribe LG.ColorIfTerminal IO.stderr (LG.permitItem LG.InfoS) LG.V2
+     LG.registerScribe "stderr" handleScribe LG.defaultScribeSettings cxt
+ 
+ -- * Null logger
+diff --git a/gen/opsgenie-rest/lib/OpsgenieREST/Orphans.hs b/gen/opsgenie-rest/lib/OpsgenieREST/Orphans.hs
+new file mode 100644
+index 0000000..6d10705
+--- /dev/null
++++ b/gen/opsgenie-rest/lib/OpsgenieREST/Orphans.hs
+@@ -0,0 +1,8 @@
++{-# LANGUAGE FlexibleInstances #-}
++
++module OpsgenieREST.Orphans where
++
++import qualified Prelude as P
++
++instance P.MonadFail (P.Either P.String) where
++  fail = P.Left
+diff --git a/gen/opsgenie-rest.cabal b/gen/opsgenie-rest.cabal
+index ee90488..c717f79 100644
+--- a/gen/opsgenie-rest/opsgenie-rest.cabal
++++ b/gen/opsgenie-rest/opsgenie-rest.cabal
+@@ -36,27 +36,27 @@ library
+     , transformers >=0.4.0.0
+     , mtl >=2.2.1
+     , unordered-containers
+-    , aeson >=1.0 && <2.0
+-    , bytestring >=0.10.0 && <0.11
+-    , base64-bytestring >1.0 && <2.0
+-    , containers >=0.5.0.0 && <0.6
+-    , http-types >=0.8 && <0.11
+-    , http-client >=0.5 && <0.6
++    , aeson >=1.0
++    , bytestring >=0.10.0
++    , base64-bytestring >1.0
++    , containers >=0.6.0.1
++    , http-types >=0.12.3
++    , http-client >=0.6.4
+     , http-client-tls
+-    , http-api-data >= 0.3.4 && <0.4
+-    , http-media >= 0.4 && < 0.8
++    , http-api-data >= 0.4.1.1
++    , http-media >= 0.8.0.0
+     , text >=0.11 && <1.3
+-    , time >=1.5 && <1.9
+-    , iso8601-time >=0.1.3 && <0.2.0
+-    , vector >=0.10.9 && <0.13
+-    , network >=2.6.2 && <2.7
++    , iso8601-time >=0.1.3
++    , vector >=0.10.9
++    , network >=2.8.0.1
++    , time >=1.5
+     , random >=1.1
+     , exceptions >= 0.4
+-    , katip >=0.4 && < 0.6
++    , katip >=0.8.3.0
+     , safe-exceptions <0.2
+     , case-insensitive
+-    , microlens >= 0.4.3 && <0.5
+-    , deepseq >= 1.4 && <1.6
++    , microlens >= 0.4.3
++    , deepseq >= 1.4
+   exposed-modules:
+       OpsgenieREST
+       OpsgenieREST.API
+@@ -66,6 +66,7 @@ library
+       OpsgenieREST.MimeTypes
+       OpsgenieREST.Model
+       OpsgenieREST.ModelLens
++      OpsgenieREST.Orphans      
+   other-modules:
+       Paths_opsgenie_rest
+   default-language: Haskell2010
+@@ -82,7 +82,7 @@ test-suite tests
+     , mtl >=2.2.1
+     , unordered-containers
+     , opsgenie-rest
+-    , bytestring >=0.10.0 && <0.11
++    , bytestring >=0.10.0
+     , containers
+     , hspec >=1.8
+     , text
+diff --git a/gen/stack.yaml b/gen/stack.yaml
+index f27e13a..2ce3b1f 100644
+--- a/gen/opsgenie-rest/stack.yaml
++++ b/gen/opsgenie-rest/stack.yaml
+@@ -1,4 +1,4 @@
+-resolver: lts-10.0
++resolver: lts-15.8
+ build:
+   haddock-arguments:
+     haddock-args:
+@@ -6,3 +6,6 @@ build:
+ extra-deps: []
+ packages:
+ - '.'
++nix:
++  enable: true
++  packages: [zlib]

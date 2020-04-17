@@ -7,7 +7,7 @@ test: patch-haskell
 	cd $(GEN_OPSGENIE_REST) && stack test
 
 patch-haskell: generate-haskell
-	patch -p1 -i patches/0001-upgrade-to-lts-14.27.patch
+	patch -p1 -i patches/0001-upgrade-to-lts-15.8.patch
 	patch -p1 -i patches/0002-geniekey-scheme.patch
 
 generate-haskell: patch-swagger
